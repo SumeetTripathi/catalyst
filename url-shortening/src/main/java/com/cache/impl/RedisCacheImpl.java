@@ -3,7 +3,6 @@ package com.cache.impl;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
@@ -18,12 +17,13 @@ import com.utils.JedisConnectionManager;
  *
  */
 @Component
+@SuppressWarnings("deprecation")
 public class RedisCacheImpl implements RedisCache {
 	private static final String URL_BUCKET = "URLBUCKET";
-	private AtomicLong hits;
+	private static final String PWD_PROTECTED = "PWDPROTECTED";
 
 	public RedisCacheImpl() {
-		hits = new AtomicLong(0l);
+
 	}
 
 	public String addUrl(String key, String value, Integer minutes) {
@@ -56,7 +56,6 @@ public class RedisCacheImpl implements RedisCache {
 		return key;
 	}
 
-	@SuppressWarnings("deprecation")
 	public String getUrl(String key) {
 		String url = null;
 
@@ -75,12 +74,12 @@ public class RedisCacheImpl implements RedisCache {
 		}
 
 		if (url != null && url.trim().length() > 0) {
-			saveSet(key, hits.incrementAndGet() + "");
+			saveSet(key);
 		}
 		return url;
 	}
 
-	public void saveSet(String hash, String key) {
+	public void saveSet(String hash) {
 		Jedis conn = null;
 
 		try {
@@ -115,7 +114,7 @@ public class RedisCacheImpl implements RedisCache {
 		return set;
 	}
 
-	@SuppressWarnings({ "deprecation", "finally" })
+	@SuppressWarnings("finally")
 	public Boolean validateUrl(String key) {
 		String url = null;
 
@@ -138,6 +137,77 @@ public class RedisCacheImpl implements RedisCache {
 			}
 			return Boolean.TRUE;
 		}
+	}
+
+	public void passwordProtected(String key, String password, Integer minutes) {
+
+		key = PWD_PROTECTED + key;
+
+		Jedis conn = JedisConnectionManager.getConnection();
+		if (!conn.isConnected()) {
+			conn.connect();
+		}
+
+		conn.set((key).getBytes(StandardCharsets.UTF_8), password.getBytes());
+		if (minutes != null && minutes > 0) {
+			conn.expire((key).getBytes(StandardCharsets.UTF_8), minutes * 60);
+		}
+		if (conn != null) {
+			JedisConnectionManager.release(conn);
+		}
+
+	}
+
+	public Boolean isPasswordProtected(String key) {
+
+		String url = null;
+		Boolean isProtected = Boolean.FALSE;
+		Jedis conn = JedisConnectionManager.getConnection();
+		if (!conn.isConnected()) {
+			conn.connect();
+		}
+		byte[] bytes = conn.get((PWD_PROTECTED + key).getBytes());
+		try {
+			url = IOUtils.toString(bytes, "UTF-8");
+		} catch (IOException e) {
+			// do-nothing
+		} finally {
+			if (conn != null) {
+				JedisConnectionManager.release(conn);
+			}
+
+			if (url != null && url.trim().length() > 0) {
+				isProtected = Boolean.TRUE;
+			}
+		}
+		return isProtected;
+	}
+
+	public Boolean isPasswordCorrect(String key, String pwd) {
+
+		String storedPwd = null;
+		Boolean isProtected = Boolean.FALSE;
+		Jedis conn = JedisConnectionManager.getConnection();
+		if (!conn.isConnected()) {
+			conn.connect();
+		}
+		byte[] bytes = conn.get((PWD_PROTECTED + key).getBytes());
+		try {
+			storedPwd = IOUtils.toString(bytes, "UTF-8");
+		} catch (IOException e) {
+			// do-nothing
+		} finally {
+			if (conn != null) {
+				JedisConnectionManager.release(conn);
+			}
+
+			if (storedPwd != null && storedPwd.trim().length() > 0) {
+				if (storedPwd.trim().equals(pwd.trim())) {
+					isProtected = Boolean.TRUE;
+				}
+			}
+		}
+		return isProtected;
 	}
 
 }
