@@ -28,7 +28,7 @@
    </script>
    <body>
       ${message}</br>
-      Alias for your url is <a href=${serverName}uri/${shrinkurl}>${serverName}uri/${shrinkurl}</a>
+      Alias for your url is <a href=${serverName}${shrinkurl}>${serverName}${shrinkurl}</a>
       <form action="shrinkurl" onsubmit="return validateForm()" method="post">
          <table>
             <tr>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                <td>Custom alias (optional): </td>
-               <td>${serverName}uri/<input type="text" name="customUrl"></td>
+               <td>${serverName}<input type="text" name="customUrl"></td>
             </tr>
             <tr>
                <td>Url Expiry in minutes (optional): </td>
@@ -56,7 +56,7 @@
          <table>
             <tr>
                <td>Enter a Url to get hits:</td>
-               <td>${serverName}uri/<input type="text" name="shrinkurl"></td>
+               <td>${serverName}<input type="text" name="shrinkurl"></td>
             </tr>
             <tr>
                <td><input type="submit" value="Get Url Hit Count "></td>

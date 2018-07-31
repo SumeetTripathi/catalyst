@@ -34,7 +34,7 @@
             </tr>
             <tr>
                <td>Custom alias (optional): </td>
-               <td>${serverName}uri/<input type="text" name="customUrl"></td>
+               <td>${serverName}<input type="text" name="customUrl"></td>
             </tr>
             <tr>
                <td>Url Expiry in minutes (optional): </td>
@@ -53,7 +53,7 @@
          <table>
             <tr>
                <td>Enter a Url to get hits:</td>
-               <td>${serverName}uri/<input type="text" name="shrinkurl"></td>
+               <td>${serverName}<input type="text" name="shrinkurl"></td>
             </tr>
             <tr>
                <td><input type="submit" value="Get Url Hit Count "></td>
