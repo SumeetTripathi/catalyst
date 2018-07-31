@@ -4,30 +4,28 @@
 <%@ page session="false"%>
 <html>
    <head>
-      <title>Track Usage</title>
+      <title>Shrink Url</title>
    </head>
    <script type="text/javascript">
-      var hits ="${hits}";
-        function validateForm(){
-			if(document.getElementsByName("url")[0].value.trim().length>0){
-				return true;
-			}else{
-				alert("Please Enter a Url");
-				return false;
-			}
-        }
-        
-        function validateHits(){
-			if(document.getElementsByName("shrinkurl")[0].value.trim().length>0){
-				return true;
-			}else{
-				alert("Please Enter a Url");
-				return false;
-			}
-        }
+      function validateForm(){
+		if(document.getElementsByName("url")[0].value.trim().length>0){
+			return true;
+		}else{
+			alert("Please Enter a Url");
+			return false;
+		}
+      }
+      
+      function validateHits(){
+		if(document.getElementsByName("shrinkurl")[0].value.trim().length>0){
+			return true;
+		}else{
+			alert("Please Enter a Url");
+			return false;
+		}
+      }
    </script>
    <body>
-      Total hits for <a href= ${shrinkurl}>${shrinkurl} </a>is ${hits}
       <form action="shrinkurl" onsubmit="return validateForm()" method="post">
          <table>
             <tr>
