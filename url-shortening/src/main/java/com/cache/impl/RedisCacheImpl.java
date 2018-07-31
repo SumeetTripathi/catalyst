@@ -169,7 +169,7 @@ public class RedisCacheImpl implements RedisCache {
 		byte[] bytes = conn.get((PWD_PROTECTED + key).getBytes());
 		try {
 			url = IOUtils.toString(bytes, "UTF-8");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// do-nothing
 		} finally {
 			if (conn != null) {
