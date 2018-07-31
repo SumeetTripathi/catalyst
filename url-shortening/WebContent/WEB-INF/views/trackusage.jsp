@@ -11,7 +11,7 @@
 	   
    </script>
 <body>
-	Total hits for = ${hits}
+	Total hits for ${serverName} ${shrinkurl} is ${hits}
 	<form action="shrinkurl" method="post">
 		<table>
 			<tr>
@@ -20,15 +20,15 @@
 			</tr>
 			<tr>
 				<td>Custom alias (optional): </td>
-				<td><input type="text" name="customUrl"></td>
+				<td>${serverName}uri/<input type="text" name="customUrl"></td>
 			</tr>
 			<tr>
 				<td>Url Expiry in minutes (optional): </td>
 				<td><input type="number" min="1" max="99999" name="expiry"></td>
 			</tr>
 			<tr>
-				<td>Max Url Hits (optional): </td>
-				<td><input type="number" min="1" max="600" name="privateCount"></td>
+				<td>Private Url Password (optional): </td>
+				<td><input type="password" name="password"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Shrink Url"></td>
@@ -39,7 +39,7 @@
 	<form action="trackusage" method="post">
 	<table>
 	<tr>
-		<td>Enter a Url to get hits:</td> <td><input type="text" name="shrinkurl"></td></tr>
+		<td>Enter a Url to get hits:</td> <td>${serverName}uri/<input type="text" name="shrinkurl"></td></tr>
 		<tr> <td><input type="submit" value="Get Url Hit Count "></td></tr></table>
 		
 	</form>
