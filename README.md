@@ -4,5 +4,5 @@
 # Redis configuration is in redis.properties
 # Please change app.server.name to you server address with app name in redis.properties
 # for eg
-# app.server.name=http://172.22.0.34:9080/url-shortening/
+# app.server.name=http://localhost:9080/url-shortening/
 
