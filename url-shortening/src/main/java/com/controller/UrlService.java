@@ -63,7 +63,7 @@ public class UrlService {
 		return "trackusage";
 	}
 
-	@RequestMapping(value = "/uri/{url}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{url}", method = RequestMethod.GET)
 	public String getUrl(@PathVariable("url") String url, Model model) {
 		model.addAttribute("serverName", JedisConnectionManager.getServerName());
 		try {
@@ -80,7 +80,7 @@ public class UrlService {
 		}
 	}
 	
-	@RequestMapping(value = "uri/pwdprotected", method = RequestMethod.POST)
+	@RequestMapping(value = "/pwdprotected", method = RequestMethod.POST)
 	public String getPwdProtectedUrl(String url,String pwd, Model model) {
 		model.addAttribute("serverName", JedisConnectionManager.getServerName());
 		try {
