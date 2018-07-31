@@ -30,6 +30,10 @@ public class JedisConnectionManager {
 		}
 	}
 
+	public static String getServerName() {
+		return config.getProperty("app.server.name");
+	}
+
 	public static void jedisPool() {
 		try {
 
